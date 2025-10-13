@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>📚 Knowledge Base Search</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1rem;
+            color: #e2e8f0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, #64b5f6 0%, #42a5f5 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .section {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .upload-section, .search-section {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto 2rem auto;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #f1f5f9;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+
+        input[type="file"] {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(15, 23, 42, 0.6);
+            border: 2px solid rgba(148, 163, 184, 0.2);
+            border-radius: 8px;
+            color: #e2e8f0;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+        }
+
+        input[type="file"]:focus {
+            border-color: #64b5f6;
+            box-shadow: 0 0 0 3px rgba(100, 181, 246, 0.1);
+            outline: none;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(15, 23, 42, 0.6);
+            border: 2px solid rgba(148, 163, 184, 0.2);
+            border-radius: 8px;
+            color: #e2e8f0;
+            font-size: 0.875rem;
+            resize: vertical;
+            min-height: 100px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        textarea:focus {
+            border-color: #64b5f6;
+            box-shadow: 0 0 0 3px rgba(100, 181, 246, 0.1);
+            outline: none;
+        }
+
+        textarea::placeholder {
+            color: #94a3b8;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 0.875rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-upload {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            margin-top: 1rem;
+        }
+
+        .btn-upload:hover {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-search {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            margin-top: 1rem;
+        }
+
+        .btn-search:hover {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+        }
+
+        .status {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-align: center;
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .result-container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(30, 41, 59, 0.9);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .answer {
+            background: rgba(15, 23, 42, 0.4);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border-left: 4px solid #64b5f6;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .sources-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #f1f5f9;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .sources-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sources-list li {
+            background: rgba(15, 23, 42, 0.4);
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            border-radius: 8px;
+            border-left: 3px solid #10b981;
+            transition: all 0.3s ease;
+        }
+
+        .sources-list li:hover {
+            background: rgba(15, 23, 42, 0.6);
+            transform: translateX(4px);
+        }
+
+        .sources-list strong {
+            color: #64b5f6;
+            font-weight: 600;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem 0.5rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .section {
+                padding: 1.5rem;
+            }
+            
+            .upload-section, .search-section {
+                max-width: 100%;
+            }
+        }
+
+        /* Loading animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Knowledge Base Search Engine</h1>
+
+        <!-- Upload Section -->
+        <div class="section upload-section fade-in">
+            <h2>📤 Upload Document</h2>
+            <div class="file-input-wrapper">
+                <input type="file" id="fileInput" accept=".pdf,.txt">
+            </div>
+            <button onclick="uploadFile()" class="btn btn-upload">
+                Upload & Process
+            </button>
+            <div id="uploadStatus" class="status"></div>
+        </div>
+
+        <!-- Search Section -->
+        <div class="section search-section fade-in">
+            <h2>🔍 Ask a Question</h2>
+            <textarea id="queryInput" placeholder="Ask something from your uploaded docs..."></textarea>
+            <button onclick="searchQuery()" class="btn btn-search">
+                Search
+            </button>
+            <div id="searchStatus" class="status"></div>
+        </div>
+
+        <!-- Results -->
+        <div id="resultContainer" class="result-container hidden">
+            <h2 class="sources-title">💡 Answer</h2>
+            <div id="answerText" class="answer"></div>
+
+            <h3 class="sources-title">📚 Sources</h3>
+            <ul id="sourceList" class="sources-list"></ul>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = "http://localhost:8000";
+
+        async function uploadFile() {
+            const fileInput = document.getElementById("fileInput");
+            const status = document.getElementById("uploadStatus");
+
+            if (!fileInput.files.length) {
+                status.innerHTML = "⚠️ Please select a file first.";
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("file", fileInput.files[0]);
+
+            status.innerHTML = '<span class="loading"></span>Uploading and processing...';
+
+            try {
+                const res = await fetch(`${API_BASE}/upload`, {
+                    method: "POST",
+                    body: formData
+                });
+
+                const data = await res.json();
+                if (res.ok) {
+                    status.innerHTML = `✅ ${data.message}`;
+                } else {
+                    status.innerHTML = `❌ Error: ${data.detail}`;
+                }
+            } catch (err) {
+                status.innerHTML = `❌ Upload failed: ${err}`;
+            }
+        }
+
+        async function searchQuery() {
+            const queryInput = document.getElementById("queryInput");
+            const status = document.getElementById("searchStatus");
+            const resultContainer = document.getElementById("resultContainer");
+            const answerText = document.getElementById("answerText");
+            const sourceList = document.getElementById("sourceList");
+
+            const query = queryInput.value.trim();
+            if (!query) {
+                status.innerHTML = "⚠️ Please enter a question.";
+                return;
+            }
+
+            status.innerHTML = '<span class="loading"></span>Searching...';
+            resultContainer.classList.add("hidden");
+
+            try {
+                const res = await fetch(`${API_BASE}/search`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ query })
+                });
+
+                const data = await res.json();
+                if (res.ok) {
+                    status.innerHTML = "✅ Search complete!";
+                    resultContainer.classList.remove("hidden");
+                    resultContainer.classList.add("fade-in");
+
+                    answerText.textContent = data.answer;
+                    sourceList.innerHTML = "";
+                    data.sources.forEach(src => {
+                        const li = document.createElement("li");
+                        li.innerHTML = `<strong>${src.filename}</strong>: ${src.text}`;
+                        sourceList.appendChild(li);
+                    });
+                } else {
+                    status.innerHTML = `❌ Error: ${data.detail}`;
+                }
+            } catch (err) {
+                status.innerHTML = `❌ Search failed: ${err}`;
+            }
+        }
+    </script>
+</body>
+</html>

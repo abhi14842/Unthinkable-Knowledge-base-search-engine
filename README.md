@@ -1,4 +1,4 @@
-# 🧠 Knowledge-base Search Engine (Basic Version)
+# 🧠 Knowledge-base Search Engine
 
 A simplified RAG (Retrieval-Augmented Generation) system using **100% FREE** APIs and models. Upload documents and ask questions to get AI-powered answers without any paid services!
 

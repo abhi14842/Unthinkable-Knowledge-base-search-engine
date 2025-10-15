@@ -72,14 +72,17 @@ knowledge-base-search/
 ├── llm_service.py
 ├── search_service.py
 ├── document_service.py
-├── vector_store_service.py
+├── vector_store.py
 ├── embedding_service.py
+│
 ├── static/
 │   └── index.html
+│
 ├── .env
 ├── .gitignore
 ├── requirements.txt
 └── README.md
+
 
 ## 🧠 Example
 

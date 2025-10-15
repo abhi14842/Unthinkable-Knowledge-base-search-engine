@@ -65,24 +65,6 @@ The backend extracts text and stores it in ChromaDB.
 Ask a question related to the uploaded document.
 The system retrieves relevant chunks and generates an answer using the Groq LLM.
 
-## 📂 Project Structure
-knowledge-base-search/
-│
-├── main.py
-├── llm_service.py
-├── search_service.py
-├── document_service.py
-├── vector_store.py
-├── embedding_service.py
-│
-├── static/
-│   └── index.html
-│
-├── .env
-├── .gitignore
-├── requirements.txt
-└── README.md
-
 
 ## 🧠 Example
 

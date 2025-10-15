@@ -26,35 +26,36 @@ A simple **AI-powered search engine** that lets you upload PDF or text documents
 
 ## ⚙️ Setup Instructions
 
-### 1️⃣ Clone the repository
-   ``bash
+## Setup Instructions
+
+1. Clone the repository
+   ```bash
    git clone https://github.com/your-username/knowledge-base-search.git
    cd knowledge-base-search
 
-### 2️⃣ Create a virtual environment
+2. Create a virtual environment
    ```bash
    python -m venv venv
-   venv\Scripts\activate   
+   venv\Scripts\activate
 
-### 3️⃣ Install dependencies
+3. Install dependencies
    ```bash
    pip install -r requirements.txt
 
-### 4️⃣ Add your Groq API key
-
-Create a .env file in the root folder and add:
+4. Add your Groq API key
+   Create a .env file in the root folder and add:
    ```bash
    GROQ_API_KEY=your_groq_api_key_here
 
-
-### ▶️ Run the Application
-Start the server:
+5. Run the Application
+   Start the server:
    ```bash
    python main.py
-
-Then open the browser and go to:
+   
+6. Then open the browser and go to:
    ```bash
    http://127.0.0.1:8000/static/index.html
+
 
 
 ##💡 How It Works

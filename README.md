@@ -27,10 +27,10 @@ A simple **AI-powered search engine** that lets you upload PDF or text documents
 ## ⚙️ Setup Instructions
 
 ### 1️⃣ Clone the repository
-   ```bash
+   ``bash
    git clone https://github.com/your-username/knowledge-base-search.git
    cd knowledge-base-search
-   
+
 ### 2️⃣ Create a virtual environment
    ```bash
    python -m venv venv
